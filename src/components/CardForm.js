@@ -4,10 +4,10 @@ function CardForm({
     aggiungiCitta,
     modificaCitta,
     isEdit,
-    title = '',
+    title = '', //sono valori standard per la creazione di nuove Card, questi prop vengono passati SOLO da Card e NON da Cardlist
     imgURL = '',
     description = '',
-    isVisited = false,  
+    isVisited = false,
 }) {
     const formRef = useRef(null); // Riferimento al form
 
@@ -20,7 +20,7 @@ function CardForm({
     const handleSubmit = (e) => {
         e.preventDefault(); // Prevent default form submission
         const formData = new FormData(formRef.current); // Get form data
-        
+
         const city = {
             title: formData.get("title"),
             imgURL: formData.get("imgURL"),
@@ -36,7 +36,7 @@ function CardForm({
     };
 
     const inviaModifica = (e) => {
-        e.preventDefault(); 
+        e.preventDefault();
         const city = {
             title: titleState,
             imgURL: imgURLState,
@@ -89,14 +89,14 @@ function CardForm({
             </div>
 
             {!isEdit && (
-            <>
-                <button type="button" onClick={handleSubmit}>Aggiungi Card</button>
-            </>
+                <>
+                    <button type="button" onClick={handleSubmit}>Aggiungi Card</button>
+                </>
             )}
             {isEdit && (
-            <>
-                <button type="button" onClick={inviaModifica}>Modifica</button>
-            </>
+                <>
+                    <button type="button" onClick={inviaModifica}>Modifica</button>
+                </>
             )}
 
         </form>

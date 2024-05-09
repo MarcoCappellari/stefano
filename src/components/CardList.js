@@ -53,17 +53,14 @@ function CardList() {
             return city;
         });
         setCitta(updatedCities);
-        console.log(keyCity);
     }
     
-
     return ( 
         <>
             <CardForm 
             aggiungiCitta = {aggiungiCitta}
-            //modificaCitta = {modificaCitta}
             />
-            {citta.map((city,index) => {
+            {citta.map((city) => {
                 return (
                 <Card
                     key = {city.uuid}
