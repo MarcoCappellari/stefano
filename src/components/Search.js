@@ -1,3 +1,5 @@
+
+
 function Search({
     setSearchTerm,
     searchTerm
@@ -12,6 +14,7 @@ function Search({
                 value={searchTerm}
                 onChange={(e) => {setSearchTerm(e.target.value)}}
             />
+
         </div>
     );
 }

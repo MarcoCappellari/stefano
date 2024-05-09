@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Card from './Card';
 import CardForm from './CardForm';
 import Search from './Search';
+import SearchButton from './SearchButton';
 
 
 function CardList() {
@@ -40,6 +41,8 @@ function CardList() {
 
     const [searchTerm, setSearchTerm] = useState('');
 
+    const [buttonSearch, setButtonSearch] = useState(null);
+
     const aggiungiCitta = (Newcity) => {
         setCitta([...citta, { ...Newcity, uuid: uuidv4() }]);
     }
@@ -61,11 +64,20 @@ function CardList() {
 
     return (
         <>
-            <Search setSearchTerm={setSearchTerm} searchTerm={searchTerm}></Search>
+            <div>
+                <Search setSearchTerm={setSearchTerm} searchTerm={searchTerm}></Search>
+                <SearchButton setButtonSearch={setButtonSearch}></SearchButton>
+            </div>
             <CardForm
                 aggiungiCitta={aggiungiCitta}
             />
-            {citta.filter(city => city.title.toLowerCase().includes(searchTerm.toLowerCase())).map((city) => {
+            {citta.filter(city => {
+                // Verifica se il nome della città include il termine di ricerca
+                const includesSearchTerm = city.title.toLowerCase().includes(searchTerm.toLowerCase()); //true o false
+                const showVisited = buttonSearch === true && city.isVisited;
+                const showNotVisited = buttonSearch === false && !city.isVisited;
+                return includesSearchTerm && (showVisited || showNotVisited || buttonSearch === null);
+            }).map((city) => {
                 return (
                     <Card
                         key={city.uuid}
@@ -73,12 +85,13 @@ function CardList() {
                         imgURL={city.imgURL}
                         description={city.description}
                         isVisited={city.isVisited}
-                        eliminaCitta={() => eliminaCitta(city.uuid)} //sto passando a card un metodo senza parametro
-                        modificaCitta={(modifiedCity) => modificaCitta(modifiedCity, city.uuid)} //sto passando a card un metodo CON parametro (modifiedCity)
+                        eliminaCitta={() => eliminaCitta(city.uuid)}
+                        modificaCitta={(modifiedCity) => modificaCitta(modifiedCity, city.uuid)}
                     >
                     </Card>
                 );
             })}
+
 
         </>
     );
